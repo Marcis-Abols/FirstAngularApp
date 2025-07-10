@@ -1,6 +1,6 @@
 //create-task.ts
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component} from '@angular/core';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Task } from '../models/task';
 import { TaskService } from '../services/task';
@@ -11,16 +11,12 @@ import { TaskService } from '../services/task';
   templateUrl: './create-task.html',
   styleUrl: './create-task.css'
 })
-export class CreateTaskComponent implements OnInit {
-  taskForm!: FormGroup;
-  // Dropdown options for type and status fields
-  types = ['Feature', 'Bug', 'Improvement'];
-  statuses = ['Pending', 'In Progress', 'Completed'];
+export class CreateTaskComponent {
+   
+  // initialize form on declaration to avoid non-null assertion
+  taskForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private taskService: TaskService) {}
-
-  ngOnInit(): void {
-     // Initialize form controls for each Task property
+  constructor(private fb: FormBuilder, private taskService: TaskService) {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', Validators.required],
@@ -29,6 +25,10 @@ export class CreateTaskComponent implements OnInit {
       status: [this.statuses[0], Validators.required]
     });
   }
+
+  // Dropdown options for type and status fields
+  types = ['Feature', 'Bug', 'Improvement'];
+  statuses = ['Pending', 'In Progress', 'Completed'];
 
   // Called when the form is submitted
   addTask(): void {

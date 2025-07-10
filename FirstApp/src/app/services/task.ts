@@ -6,7 +6,7 @@ import { Task } from '../models/task';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-  private url = 'assets/tasks.json';
+  private readonly url = 'assets/tasks.json';
 
   // holds current list
   private tasksSubject = new BehaviorSubject<Task[]>([]);
