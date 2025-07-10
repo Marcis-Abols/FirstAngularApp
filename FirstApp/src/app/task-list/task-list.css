@@ -1,0 +1,23 @@
+.task-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
+.delete-btn {
+  display: flex;          /* makes margin auto work */
+  margin: 0.5rem 0rem 0;   /* top margin, auto left/right, zero bottom */
+
+  /* your button look & feel */
+  background-color: #ff5252;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #ff1744;
+}
