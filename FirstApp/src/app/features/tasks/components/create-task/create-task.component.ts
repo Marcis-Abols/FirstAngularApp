@@ -2,14 +2,14 @@
 import { Component} from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Task } from '../../models/task';
-import { TaskService } from '../services/task';
+import { Task } from '../../models/task.model';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-create-task',
   imports: [ReactiveFormsModule,CommonModule],
-  templateUrl: './create-task.html',
-  styleUrl: './create-task.css'
+  templateUrl: './create-task.component.html',
+  styleUrl: './create-task.component.css'
 })
 export class CreateTaskComponent {
    
