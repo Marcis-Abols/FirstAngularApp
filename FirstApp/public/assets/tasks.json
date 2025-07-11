@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Buy groceries",
+    "description": "Milk, Bread, Eggs",
+    "type": "Feature",
+    "createdOn": "2025-07-01T00:00:00.000Z",
+    "status": "Pending"
+  },
+  {
+    "title": "Fix login bug",
+    "description": "Users can’t sign in with Google",
+    "type": "Bug",
+    "createdOn": "2025-06-28T00:00:00.000Z",
+    "status": "In Progress"
+  },
+  {
+    "title": "Add user profile",
+    "description": "Allow editing avatar and bio",
+    "type": "Improvement",
+    "createdOn": "2025-06-25T00:00:00.000Z",
+    "status": "Completed"
+  }
+]
