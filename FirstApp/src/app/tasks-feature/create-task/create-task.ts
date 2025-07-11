@@ -2,7 +2,7 @@
 import { Component} from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Task } from '../models/task';
+import { Task } from '../../models/task';
 import { TaskService } from '../services/task';
 
 @Component({

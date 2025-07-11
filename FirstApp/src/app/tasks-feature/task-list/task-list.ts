@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { TaskService } from '../services/task';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { Task } from '../models/task';
+import { Task } from '../../models/task';
 
 
 
@@ -13,7 +13,7 @@ import { Task } from '../models/task';
   imports: [CommonModule],
   providers:[]
 })
-export class TaskList{
+export class TaskListComponent {
   tasks$: Observable<Task[]>
 
   constructor(private taskService: TaskService) {
