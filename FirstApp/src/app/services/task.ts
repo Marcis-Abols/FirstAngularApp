@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable,BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { take }               from 'rxjs/operators';
 import { Task } from '../models/task';
 
 @Injectable({ providedIn: 'root' })
@@ -10,16 +10,15 @@ export class TaskService {
 
   // holds current list
   private tasksSubject = new BehaviorSubject<Task[]>([]);
-  // exposes tasks as observable
-  tasks$ = this.tasksSubject.asObservable();
+  
 
   constructor(private http: HttpClient) {
     // initial load
-    this.http.get<Task[]>(this.url).subscribe(tasks => this.tasksSubject.next(tasks));
+    this.http.get<Task[]>(this.url).pipe(take(1)).subscribe(tasks => this.tasksSubject.next(tasks));
   }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.url);
+    return this.tasksSubject.asObservable();
   }
   // add a new task to the subject
   addTask(task: Task) {

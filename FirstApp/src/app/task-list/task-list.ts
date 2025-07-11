@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { TaskService } from '../services/task';
-import { Task } from '../models/task';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { Task } from '../models/task';
+
+
 
 @Component({
   selector: 'app-task-list',
@@ -10,15 +13,14 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   providers:[]
 })
-export class TaskList implements OnInit {
-  tasks: Task[] = [];
+export class TaskList{
+  tasks$: Observable<Task[]>
 
-  constructor(private taskService: TaskService) {}
-
-  ngOnInit(): void {
-    this.taskService.tasks$.subscribe(data => this.tasks = data);
+  constructor(private taskService: TaskService) {
+     this.tasks$= this.taskService.getTasks();
   }
 
+ 
   onDelete(index: number): void {
     this.taskService.deleteTask(index);
   }
