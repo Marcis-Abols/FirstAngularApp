@@ -1,0 +1,9 @@
+<ng-container *ngIf="task$ | async as task; else loading">
+  <h1>{{ task.title }}</h1>
+  <p>{{ task.description }}</p>
+  <!-- any other fields… -->
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading task details…</p>
+</ng-template>

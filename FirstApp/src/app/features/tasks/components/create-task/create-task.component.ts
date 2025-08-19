@@ -9,7 +9,8 @@ import { TaskService } from '../../services/task.service';
   selector: 'app-create-task',
   imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './create-task.component.html',
-  styleUrl: './create-task.component.css'
+  styleUrl: './create-task.component.css',
+  standalone: true
 })
 export class CreateTaskComponent {
    
@@ -35,7 +36,8 @@ export class CreateTaskComponent {
     if (this.taskForm.valid) {
       // Build a Task object, parsing date string into a Date
       const formValue = this.taskForm.value;
-      const newTask: Task = {
+      const newTask: Omit<Task, 'id'> = {
+        
         title: formValue.title,
         description: formValue.description,
         type: formValue.type,

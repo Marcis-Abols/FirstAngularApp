@@ -3,6 +3,7 @@ import { TaskService } from '../../services/task.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Task } from '../../models/task.model';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -10,8 +11,9 @@ import { Task } from '../../models/task.model';
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
-  imports: [CommonModule],
-  providers:[]
+  imports: [CommonModule,RouterModule],
+  providers:[],
+  standalone: true
 })
 export class TaskListComponent {
   tasks$: Observable<Task[]>

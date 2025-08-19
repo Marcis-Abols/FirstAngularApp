@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable,BehaviorSubject } from 'rxjs';
-import { take }               from 'rxjs/operators';
+import { map, take }               from 'rxjs/operators';
 import { Task } from '../models/task.model';
 
 @Injectable({ providedIn: 'root' })
@@ -21,14 +21,23 @@ export class TaskService {
     return this.tasksSubject.asObservable();
   }
   // add a new task to the subject
-  addTask(task: Task) {
+  addTask(task: Omit<Task,'id'>): Task {
     const current = this.tasksSubject.value;
-    this.tasksSubject.next([...current, task]);
+    const maxId  = current.length? Math.max(...current.map(t => t.id)): 0;
+    const withId: Task = { ...task, id: maxId + 1 };
+    this.tasksSubject.next([...current, withId]);
+    return withId;
   }
 
   deleteTask(index: number) {
     const current = this.tasksSubject.value;
     const updated = current.filter((_, i) => i !== index);
     this.tasksSubject.next(updated);
+  }
+
+  getTaskById(id: number): Observable<Task|undefined> {
+    return this.tasksSubject.asObservable().pipe(
+      map(tasks => tasks.find(t => t.id === id))
+    );
   }
 }

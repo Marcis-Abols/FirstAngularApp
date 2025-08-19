@@ -1,9 +1,12 @@
-<ul>
-  <li *ngFor="let task of tasks$ | async; let i = index; " class="task-card">
-    <h3>{{ task.title }}</h3>
-    <p>{{ task.description }}</p>
-    <small>Type: {{ task.type }} | Created: {{ task.createdOn | date:'mediumDate' }} | Status: {{ task.status }}</small>
-    <!-- Delete button -->
-    <button class="delete-btn" (click)="onDelete(i)">Delete</button>
-  </li>
-</ul>
+<h1>All Tasks</h1>
+  <ul>
+    <li *ngFor="let task of tasks$ | async; let i = index " class="task-card">
+      <a [routerLink]="['/tasks', task.id]">
+        <h3>{{ task.title }}</h3>
+      </a>
+      <p>{{ task.description }}</p>
+      <small>Type: {{ task.type }} | Created: {{ task.createdOn | date:'mediumDate' }} | Status: {{ task.status }}</small>
+      <!-- Delete button -->
+      <button class="delete-btn" (click)="onDelete(i)">Delete</button>
+    </li>
+  </ul>
