@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable,BehaviorSubject } from 'rxjs';
 import { map, take }               from 'rxjs/operators';
@@ -8,36 +8,33 @@ import { Task } from '../models/task.model';
 export class TaskService {
   private readonly url = 'assets/tasks.json';
 
-  // holds current list
-  private tasksSubject = new BehaviorSubject<Task[]>([]);
-  
+  // holds current list, will serve as getTasks also
+  private readonly _tasks: WritableSignal<Task[]> = signal<Task[]>([]);
+  readonly tasks = this._tasks.asReadonly();
 
   constructor(private http: HttpClient) {
     // initial load
-    this.http.get<Task[]>(this.url).pipe(take(1)).subscribe(tasks => this.tasksSubject.next(tasks));
+    this.http.get<Task[]>(this.url).pipe(take(1)).subscribe({
+      next: (list) => this._tasks.set(list ?? []),
+      error: () => this._tasks.set([]),
+    });
   }
 
-  getTasks(): Observable<Task[]> {
-    return this.tasksSubject.asObservable();
-  }
+  
   // add a new task to the subject
-  addTask(task: Omit<Task,'id'>): Task {
-    const current = this.tasksSubject.value;
-    const maxId  = current.length? Math.max(...current.map(t => t.id)): 0;
-    const withId: Task = { ...task, id: maxId + 1 };
-    this.tasksSubject.next([...current, withId]);
-    return withId;
+  addTask(task: Omit<Task, 'id'>) {
+    this._tasks.update(curr => {
+      const nextId = curr.length ? Math.max(...curr.map(t => t.id)) + 1 : 0;
+      const newTask: Task = { id: nextId, ...task };
+      return [...curr, newTask];
+    });
   }
 
-  deleteTask(index: number) {
-    const current = this.tasksSubject.value;
-    const updated = current.filter((_, i) => i !== index);
-    this.tasksSubject.next(updated);
+  deleteAtIndex(index: number) {
+    this._tasks.update(curr => curr.filter((_, i) => i !== index));
   }
 
-  getTaskById(id: number): Observable<Task|undefined> {
-    return this.tasksSubject.asObservable().pipe(
-      map(tasks => tasks.find(t => t.id === id))
-    );
+  taskById(id: number) {
+    return computed(() => this._tasks().find(t => t.id === id));
   }
 }

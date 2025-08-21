@@ -1,7 +1,6 @@
-import { Component} from '@angular/core';
+import { Component,inject} from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { Task } from '../../models/task.model';
 import { RouterModule } from '@angular/router';
 
@@ -16,14 +15,14 @@ import { RouterModule } from '@angular/router';
   standalone: true
 })
 export class TaskListComponent {
-  tasks$: Observable<Task[]>
+  private readonly taskService = inject(TaskService);
+  readonly tasks = this.taskService.tasks;
 
-  constructor(private taskService: TaskService) {
-     this.tasks$= this.taskService.getTasks();
+  trackById(index: number, task: Task) {
+    return task.id;
   }
-
  
-  onDelete(index: number): void {
-    this.taskService.deleteTask(index);
+  onDelete(index: number) {
+    this.taskService.deleteAtIndex(index);
   }
 }

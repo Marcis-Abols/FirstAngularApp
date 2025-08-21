@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable }    from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Task }          from '../../models/task.model';
+import { map} from 'rxjs/operators';
 import { TaskService }   from '../../services/task.service';
 import { CommonModule } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-task-details',
@@ -14,14 +13,18 @@ import { CommonModule } from '@angular/common';
   styleUrl: './task-details.component.css'
 })
 export class TaskDetailsComponent {
-  task$: Observable<Task | undefined>;
-  constructor(
-    private route: ActivatedRoute,
-    private tasks: TaskService
-  ) {
-    this.task$ = this.route.paramMap.pipe(
-      map(params => Number(params.get('id'))),
-      switchMap(id => this.tasks.getTaskById(id))
-    );
-  }
+  private readonly route = inject(ActivatedRoute);
+  private readonly taskService = inject(TaskService);
+
+  readonly taskId = toSignal(
+    this.route.paramMap.pipe(map(params => Number(params.get('id')))),
+    { initialValue: NaN }
+  );
+  
+  readonly task = computed(() => {
+    const id = this.taskId();
+    if (Number.isNaN(id)) return undefined;
+    // taskById returns a computed signal—read it with ()
+    return this.taskService.taskById(id)();
+  });
 }
