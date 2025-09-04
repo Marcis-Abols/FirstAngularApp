@@ -18,12 +18,12 @@ export class TaskDetailsComponent {
 
   readonly taskId = toSignal(
     this.route.paramMap.pipe(map(params => Number(params.get('id')))),
-    { initialValue: NaN }
+    { initialValue: null }
   );
   
   readonly task = computed(() => {
     const id = this.taskId();
-    if (Number.isNaN(id)) return undefined;
+    if (id==null) return ;
     // taskById returns a computed signal—read it with ()
     return this.taskService.taskById(id)();
   });
