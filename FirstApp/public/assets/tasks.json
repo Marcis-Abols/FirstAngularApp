@@ -1,5 +1,6 @@
 [
   {
+    "id": 0,
     "title": "Buy groceries",
     "description": "Milk, Bread, Eggs",
     "type": "Feature",
@@ -7,6 +8,7 @@
     "status": "Pending"
   },
   {
+    "id": 1,
     "title": "Fix login bug",
     "description": "Users can’t sign in with Google",
     "type": "Bug",
@@ -14,6 +16,7 @@
     "status": "In Progress"
   },
   {
+    "id": 2,
     "title": "Add user profile",
     "description": "Allow editing avatar and bio",
     "type": "Improvement",
