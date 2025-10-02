@@ -3,24 +3,34 @@
   <div class="form-group">
     <label for="taskTitle">Title</label>
     <input id="taskTitle" formControlName="title" />
-    <div *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid">
-      <small *ngIf="taskForm.get('title')?.errors?.['required']">Title is required.</small>
-      <small *ngIf="taskForm.get('title')?.errors?.['maxlength']">Max length is 100.</small>
-    </div>
+    @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
+      <div>
+        @if (taskForm.get('title')?.errors?.['required']) {
+          <small>Title is required.</small>
+        }
+        @if (taskForm.get('title')?.errors?.['maxlength']) {
+          <small>Max length is 100.</small>
+        }
+      </div>
+    }
   </div>
 
   <div class="form-group">
     <label for="taskDesc">Description</label>
     <textarea id="taskDesc" formControlName="description"></textarea>
-    <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid">
-      <small>Description is required.</small>
-    </div>
+    @if (taskForm.get('description')?.touched && taskForm.get('description')?.invalid) {
+      <div>
+        <small>Description is required.</small>
+      </div>
+    }
   </div>
 
   <div class="form-group">
     <label for="taskType">Type</label>
     <select id="taskType" formControlName="type">
-      <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+      @for (t of types; track t) {
+        <option [value]="t">{{ t }}</option>
+      }
     </select>
   </div>
 
@@ -32,7 +42,9 @@
   <div class="form-group">
     <label for="taskStatus">Status</label>
     <select id="taskStatus" formControlName="status">
-      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      @for (s of statuses; track s) {
+        <option [value]="s">{{ s }}</option>
+      }
     </select>
   </div>
 
