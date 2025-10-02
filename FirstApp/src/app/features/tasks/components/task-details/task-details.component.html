@@ -1,7 +1,7 @@
-<ng-container *ngIf="task() as task; else loading">
+@if (task(); as task) {
   <div class="task-details">
     <!-- View Mode -->
-    <div *ngIf="!isEditMode()" class="view-mode">
+    @if (!isEditMode()) {
       <div class="task-header">
         <h1>{{ task.title }}</h1>
         <button type="button" class="edit-btn" (click)="toggleEditMode()">Edit</button>
@@ -13,10 +13,10 @@
         <p><strong>ID:</strong> {{ task.id }}</p>
         <p><strong>Created On:</strong> {{ task.createdOn | date }}</p>
       </div>
-    </div>
+    }
 
     <!-- Edit Mode -->
-    <div *ngIf="isEditMode()" class="edit-mode">
+    @if (isEditMode()) {
       <form [formGroup]="editForm" (ngSubmit)="saveTask()">
         <div class="form-header">
           <h1>Edit Task</h1>
@@ -34,9 +34,11 @@
             formControlName="title" 
             class="form-control"
             [class.error]="editForm.get('title')?.invalid && editForm.get('title')?.touched">
-          <div *ngIf="editForm.get('title')?.invalid && editForm.get('title')?.touched" class="error-message">
-            Title is required
-          </div>
+          @if (editForm.get('title')?.invalid && editForm.get('title')?.touched) {
+            <div class="error-message">
+              Title is required
+            </div>
+          }
         </div>
 
         <div class="form-group">
@@ -48,9 +50,11 @@
             rows="4"
             [class.error]="editForm.get('description')?.invalid && editForm.get('description')?.touched">
           </textarea>
-          <div *ngIf="editForm.get('description')?.invalid && editForm.get('description')?.touched" class="error-message">
-            Description is required
-          </div>
+          @if (editForm.get('description')?.invalid && editForm.get('description')?.touched) {
+            <div class="error-message">
+              Description is required
+            </div>
+          }
         </div>
 
         <div class="form-group">
@@ -65,10 +69,11 @@
             <option value="Bug">Bug</option>
             <option value="Improvement">Improvement</option>
           </select>
-          
-          <div *ngIf="editForm.get('type')?.invalid && editForm.get('type')?.touched" class="error-message">
-            Type is required
-          </div>
+          @if (editForm.get('type')?.invalid && editForm.get('type')?.touched) {
+            <div class="error-message">
+              Type is required
+            </div>
+          }
         </div>
 
         <div class="form-group">
@@ -84,9 +89,11 @@
             <option value="Completed">Completed</option>
             <option value="Cancelled">Cancelled</option>
           </select>
-          <div *ngIf="editForm.get('status')?.invalid && editForm.get('status')?.touched" class="error-message">
-            Status is required
-          </div>
+          @if (editForm.get('status')?.invalid && editForm.get('status')?.touched) {
+            <div class="error-message">
+              Status is required
+            </div>
+          }
         </div>
 
         <div class="readonly-info">
@@ -94,10 +101,8 @@
           <p><strong>Created On:</strong> {{ task.createdOn | date }}</p>
         </div>
       </form>
-    </div>
+    }
   </div>
-</ng-container>
-
-<ng-template #loading>
+}@else {
   <p>Loading task details…</p>
-</ng-template>
+}
