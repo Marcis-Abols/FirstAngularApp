@@ -34,6 +34,12 @@ export class TaskService {
     this._tasks.update(curr => curr.filter((_, i) => i !== index));
   }
 
+  updateTask(updatedTask: Task) {
+    this._tasks.update(curr => 
+      curr.map(task => task.id === updatedTask.id ? updatedTask : task)
+    );
+  }
+
   taskById(id: number) {
     return computed(() => this._tasks().find(t => t.id === id));
   }
